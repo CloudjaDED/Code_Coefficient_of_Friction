@@ -31,7 +31,7 @@ file.to_csv('modified_1500 15A', index=False)
 
 file['Power'] = file['Power'].interpolate()
 
-file['Coefficient of Friction'] = file['Power'] * 1000 / (file['Pressure'] * 6894.76 * 13.6)
+file['Coefficient of Friction'] = file['Power'] * 1000 / (file['Pressure'] * 6894.76 * 13.6/10000*1000/60*math.pi*2*0.1755)
 file
 
 file2 = pd.read_csv('1500 rpm C', names=['Pad Temp.2', 'Rotor C2', 'Pressure2', 'Caliper C2'])
