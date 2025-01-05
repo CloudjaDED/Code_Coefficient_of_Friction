@@ -5,7 +5,7 @@ import math as math
 from scipy.interpolate import interp1d
 import numpy as np
 
-file = pd.read_csv('1500 15A', names=['Pad Temp.', 'Rotor C', 'Pressure', 'Caliper C'])
+file = pd.read_csv('1500_15A', names=['Pad Temp.', 'Rotor C', 'Pressure', 'Caliper C'])
 file
 
 file = file.iloc[70:187, :]
@@ -27,14 +27,14 @@ file['new_col'] = np.linspace(2.2, 2.8, 117)
 file['Power'] = file['new_col']
 
 # Save the modified dataset
-file.to_csv('modified_1500 15A', index=False)
+file.to_csv('modified_1500_15A', index=False)
 
 file['Power'] = file['Power'].interpolate()
 
 file['Coefficient of Friction'] = file['Power'] * 1000 / (file['Pressure'] * 6894.76 * 13.6/10000*1000/60*math.pi*2*0.1755)
 file
 
-file2 = pd.read_csv('1500 rpm C', names=['Pad Temp.2', 'Rotor C2', 'Pressure2', 'Caliper C2'])
+file2 = pd.read_csv('1500_rpm_C', names=['Pad Temp.2', 'Rotor C2', 'Pressure2', 'Caliper C2'])
 file2
 
 file2 = file2.iloc[166:1083, :]
@@ -56,11 +56,11 @@ file2['new_col'] = np.linspace(2200, 7100, 917)
 file2['Power2'] = file2['new_col']
 
 # Save the modified dataset
-file2.to_csv('modified_1500 rpm C', index=False)
+file2.to_csv('modified_1500_rpm_C', index=False)
 
 file2['Power2'] = file2['Power2'].interpolate()
 
-file2['Coefficient of Friction2'] = file2['Power2'] / (file2['Pressure2'] * 6894.76 * 13.6)
+file2['Coefficient of Friction2'] = file2['Power2'] / (file2['Pressure2'] * 6894.76 *13.6/10000*1000/60*math.pi*2*0.1755) 
 file2
 
 file3 = pd.read_csv('dyno_test_temp_000.csv', names=['Pad Temp.3', 'Rotor C3', 'Pressure3', 'Caliper C3'])
@@ -90,7 +90,7 @@ file3.to_csv('modified_dyno_test_temp_000.csv', index=False)
 
 file3['Power3'] = file3['Power3'].interpolate()
 
-file3['Coefficient of Friction3'] = file3['Power3'] / (file3['Pressure3'] * 6894.76 * 13.6)
+file3['Coefficient of Friction3'] = file3['Power3'] / (file3['Pressure3'] * 6894.76 * 13.6/10000*1000/60*math.pi*2*0.1755)
 file3
 
 # Plot data on the same graph
