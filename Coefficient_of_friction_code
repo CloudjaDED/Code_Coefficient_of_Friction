@@ -1,0 +1,113 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import datetime as datetime
+import math as math
+from scipy.interpolate import interp1d
+import numpy as np
+
+file = pd.read_csv('1500 15A', names=['Pad Temp.', 'Rotor C', 'Pressure', 'Caliper C'])
+file
+
+file = file.iloc[70:187, :]
+file
+file = file.astype(float)
+file
+
+# Define the starting and ending values
+start_val = 2.2
+end_val = 2.8
+
+# Define the length of the new column
+col_length = len(['117'])
+
+# Create the new column with starting and ending values
+file['new_col'] = np.linspace(2.2, 2.8, 117)
+
+# Assign the new column to the dataset
+file['Power'] = file['new_col']
+
+# Save the modified dataset
+file.to_csv('modified_1500 15A', index=False)
+
+file['Power'] = file['Power'].interpolate()
+
+file['Coefficient of Friction'] = file['Power'] * 1000 / (file['Pressure'] * 6894.76 * 13.6)
+file
+
+file2 = pd.read_csv('1500 rpm C', names=['Pad Temp.2', 'Rotor C2', 'Pressure2', 'Caliper C2'])
+file2
+
+file2 = file2.iloc[166:1083, :]
+file2
+file2 = file2.astype(float)
+file2
+
+# Define the starting and ending values
+start_val = 2600
+end_val = 7100
+
+# Define the length of the new column
+col_length = len([])
+
+# Create the new column with starting and ending values
+file2['new_col'] = np.linspace(2200, 7100, 917)
+
+# Assign the new column to the dataset
+file2['Power2'] = file2['new_col']
+
+# Save the modified dataset
+file2.to_csv('modified_1500 rpm C', index=False)
+
+file2['Power2'] = file2['Power2'].interpolate()
+
+file2['Coefficient of Friction2'] = file2['Power2'] / (file2['Pressure2'] * 6894.76 * 13.6)
+file2
+
+file3 = pd.read_csv('dyno_test_temp_000.csv', names=['Pad Temp.3', 'Rotor C3', 'Pressure3', 'Caliper C3'])
+file3
+
+file3 = file3.iloc[293:709, :]
+file3
+
+file3 = file3.astype(float)
+file3
+
+# Define the starting and ending values
+start_val = 2900
+end_val = 6000
+
+# Define the length of the new column
+col_length = len([416])
+
+# Create the new column with starting and ending values
+file3['new_col'] = np.linspace(2900, 6000, 416)
+
+# Assign the new column to the dataset
+file3['Power3'] = file3['new_col']
+
+# Save the modified dataset
+file3.to_csv('modified_dyno_test_temp_000.csv', index=False)
+
+file3['Power3'] = file3['Power3'].interpolate()
+
+file3['Coefficient of Friction3'] = file3['Power3'] / (file3['Pressure3'] * 6894.76 * 13.6)
+file3
+
+# Plot data on the same graph
+plt.plot(file['Pad Temp.'], file['Coefficient of Friction'], label='PAD A')
+plt.plot(file2['Pad Temp.2'], file2['Coefficient of Friction2'], label='PAD C')
+plt.plot(file3['Pad Temp.3'], file3['Coefficient of Friction3'], label='PAD B')
+
+# Add labels and legend
+plt.xlabel('Temperature of Pad')
+plt.ylabel('CoF')
+plt.title('Brake Pad Test')
+plt.legend()
+
+# Show the plot
+plt.show()
+
+
+
+
+
